@@ -8,8 +8,8 @@ describe('Blockchain', ()=>{
         bc2 = new Blockchain();
     });
 
-    it('starts with gensis block', ()=>{
-        expect(bc.chain[0]).toEqual(Block.gensis());
+    it('starts with genesis block', ()=>{
+        expect(bc.chain[0]).toEqual(Block.genesis());
     })
 
     it('adds a new block', ()=>{
@@ -25,7 +25,7 @@ describe('Blockchain', ()=>{
         expect(bc.isValidChain(bc2.chain)).toBe(true);
     })
 
-    it('invalidates a chain with a corrup gensis block', ()=>{
+    it('invalidates a chain with a corrup genesis block', ()=>{
        bc2.chain[0].data = 'Bad data';
        expect(bc.isValidChain(bc2.chain)).toBe(false);
     });
