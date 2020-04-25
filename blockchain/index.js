@@ -8,6 +8,8 @@ class Blockchain {
 
   addBlock(data) {
     const block = Block.mineBlock(this.chain[this.chain.length-1], data);
+
+    // console.log(JSON.stringify(block, null, 2));
     this.chain.push(block);
 
     return block;

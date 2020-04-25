@@ -45,13 +45,15 @@ class Wallet {
     let transactions = [];
     blockchain.chain.forEach((block) =>
       block.data.forEach((transaction) => {
-        transaction.push(transaction);
+        transactions.push(transaction);
       })
     );
 
     const walletInputTs = transactions.filter(
       (transaction) => transaction.input.address === this.publicKey
     );
+
+    console.log(walletInputTs.length);
 
     let startTime = 0;
 
@@ -61,24 +63,25 @@ class Wallet {
         prev.input.timestamp > current.input.timestamp ? prev : current;
       });
 
+      console.log(recentInputT);
+
       balance = recentInputT.outputs.find(
         (output) => output.address === this.publicKey
       ).amount;
       startTime = recentInputT.input.timstamp;
-
     }
 
-    // finding amounts after the current transactions. 
-    transactions.forEach(transaction=> {
-      if (transactions.input.timestamp > startTime){
-        transaction.output.find(output=> {
-          if (output.address === this.publicKey){
+    // finding amounts after the current transactions.
+    transactions.forEach((transaction) => {
+      if (transaction.input.timestamp > startTime) {
+        transaction.outputs.find((output) => {
+          if (output.address === this.publicKey) {
             balance += output.amount;
           }
         });
-      }      
-    })
-
+      }
+    });
+    
     return balance;
   }
 
