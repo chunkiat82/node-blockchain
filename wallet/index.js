@@ -43,34 +43,29 @@ class Wallet {
   calculateBalance(blockchain) {
     let balance = this.balance;
     let transactions = [];
-    blockchain.chain.forEach((block) =>
-      block.data.forEach((transaction) => {
-        transactions.push(transaction);
-      })
-    );
+    blockchain.chain.forEach(block => block.data.forEach(transaction => {
+      transactions.push(transaction);
+    }));
 
-    const walletInputTs = transactions.filter(
-      (transaction) => transaction.input.address === this.publicKey
-    );
-
-    console.log(walletInputTs.length);
+    const walletInputTs = transactions
+      .filter(transaction => transaction.input.address === this.publicKey);
 
     let startTime = 0;
 
     //finding the latest
     if (walletInputTs.length > 0) {
-      const recentInputT = walletInputTs.reduce((prev, current) => {
-        prev.input.timestamp > current.input.timestamp ? prev : current;
-      });
-
-      console.log(recentInputT);
+      const recentInputT = walletInputTs.reduce(
+        (prev, current) => prev.input.timestamp > current.input.timestamp ? prev : current
+      );
 
       balance = recentInputT.outputs.find(
         (output) => output.address === this.publicKey
       ).amount;
-      startTime = recentInputT.input.timstamp;
+      startTime = recentInputT.input.timestamp;
+      
     }
 
+  
     // finding amounts after the current transactions.
     transactions.forEach((transaction) => {
       if (transaction.input.timestamp > startTime) {
